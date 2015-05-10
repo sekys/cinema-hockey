@@ -8,7 +8,7 @@ public final class PluskaRequest extends HttpGet {
     public PluskaRequest() {
         super(Configuration.URL);
 
-        int timeout = 2;
+        int timeout = 3;
         setHeaders(Configuration.HEADERS);
         setConfig(RequestConfig.custom()
             .setSocketTimeout(timeout * 1000)

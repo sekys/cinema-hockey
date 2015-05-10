@@ -79,6 +79,7 @@ public final class Hockey {
     }
 
     private void foundNewLink(String href) {
+        openBrowser(href, 1);
         registerUsers(href);
         playAlert();
         LOGGER.info("Finished.");
@@ -103,17 +104,19 @@ public final class Hockey {
         httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 
         // Select nahoda attribute
-        HttpResponse response = httpClient.execute(new CinemaRequest(url));
+        HttpResponse response = httpClient.execute(new CinemaRequest(url), httpContext);
         String result = EntityUtils.toString(response.getEntity(), Charset.forName("UTF-8"));
         //result = FileUtils.readFileToString(new File("source-code.txt"));
         Document doc = Jsoup.parse(result);
         Elements inputs = doc.select("input[name=nahoda]");
         if (inputs.isEmpty()) {
+            LOGGER.warn("ziadny input tag");
             return;
         }
         Element nahodaInput = inputs.get(0);
         String nahoda = nahodaInput.attr("value");
         if (nahoda == null) {
+            LOGGER.warn("ziadny input nahoda");
             return;
         }
 
@@ -126,8 +129,9 @@ public final class Hockey {
     public void run() {
 
         try {
-            //registerUser("", Configuration.USERS[1]);
-            int seconds = 2;
+            //registerUser("",Configuration.USERS[1]);
+            // registerUser("http://myhttp.info", Configuration.USERS[1]);
+            int seconds = 1;
             while (true) {
                 crawl();
                 Thread.sleep(seconds * 1000);

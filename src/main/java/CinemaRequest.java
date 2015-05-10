@@ -29,7 +29,7 @@ public final class CinemaRequest extends HttpPost {
     public CinemaRequest(String url) {
         super(url);
 
-        int timeout = 2;
+        int timeout = 3;
         setHeaders(Configuration.HEADERS);
         setConfig(RequestConfig.custom()
             .setSocketTimeout(timeout * 1000)
